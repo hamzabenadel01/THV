@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HOTEL THE VIEW RABAT - Taux de Change</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    font-family:Poppins,sans-serif;
+    background:#f4f7fb;
+}
+
+.hero{
+    background:linear-gradient(135deg,#0f4c81,#0b2745);
+    color:white;
+    padding:70px;
+}
+
+.hero h1{
+    font-weight:700;
+}
+
+.hero p{
+    opacity:.9;
+}
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-logo {
+    height: 130px;
+    width: auto;
+    vertical-align: middle;
+    border-radius: 15px;
+    padding: 8px 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+}
+.card-custom{
+    margin-top:-50px;
+    border:none;
+    border-radius:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.table thead{
+    background:#0f4c81;
+    color:white;
+}
+
+.table thead th {
+    font-weight: 600;
+    padding: 12px 15px;
+}
+
+.table tbody tr:hover{
+    background:#eef6ff;
+}
+
+.badge-live{
+    background:#28a745;
+    font-size:14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.footer{
+    margin-top:50px;
+    background:#0b2745;
+    color:white;
+    padding:20px;
+}
+
+.currency{
+    display:flex;
+    align-items:center;
+    font-weight:600;
+    gap:10px;
+}
+
+.flag{
+    width:32px;
+    height:22px;
+    border-radius:4px;
+    border:1px solid #ddd;
+    object-fit:cover;
+}
+
+.search-box{
+    max-width:300px;
+}
+
+.rate-buy {
+    color: #0f4c81;
+    font-weight: 500;
+}
+
+.rate-sell {
+    color: #c0392b;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: #0f4c81;
+    border: none;
+    padding: 8px 20px;
+}
+
+.btn-primary:hover {
+    background: #0b3a62;
+}
+
+.btn-fullscreen {
+    background: #28a745;
+    border: none;
+    padding: 8px 20px;
+    color: white;
+}
+
+.btn-fullscreen:hover {
+    background: #1e7e34;
+}
+
+/* Style pour le mode plein écran */
+:-webkit-full-screen .hero {
+    padding: 50px;
+}
+
+:-moz-full-screen .hero {
+    padding: 50px;
+}
+
+:fullscreen .hero {
+    padding: 50px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="container">
+    <div class="logo-container">
+    <img src="https://theviewhotels.com/_next/image?url=https%3A%2F%2Fapi.theviewhotels.com%2Fuploads%2Flogo_marque_4bcfc6396f.png&w=256&q=75" 
+         alt="Hotel The View Rabat" 
+         class="header-logo">
+    </div>
+
+<h1>HOTEL THE VIEW RABAT</h1>
+
+<p>Taux de Change en Temps Réel</p>
+
+</div>
+
+</section>
+
+<div class="container">
+
+<div class="card card-custom">
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+
+<h3 class="mb-0">📊 Taux de Change</h3>
+
+<div class="d-flex flex-wrap gap-2">
+
+<button class="btn btn-primary" onclick="location.reload()">
+Actualiser
+</button>
+
+<button class="btn btn-fullscreen" onclick="toggleFullscreen()">
+Plein écran
+</button>
+
+</div>
+
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-striped table-hover align-middle" id="currencyTable">
+
+<thead>
+
+<tr>
+<th>Devise</th>
+<th>Unité</th>
+<th>Libellé</th>
+<th class="rate-buy">Achat</th>
+<th class="rate-sell">Vente</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for row in rates[1:] %}
+
+{% if row|length >= 5 %}
+
+{% set code = row[0]|upper %}
+{% set unit = row[1] %}
+{% set label = row[2] %}
+{% set buy = row[3] %}
+{% set sell = row[4] %}
+
+<tr>
+
+<td>
+
+<div class="currency">
+
+{% set flag_code = code[:2]|lower %}
+
+<img class="flag" src="https://flagcdn.com/w40/{{ flag_code }}.png" 
+     alt="Drapeau {{ code }}" 
+     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'">
+
+<span style="display:none;">🌍</span>
+
+{{ code }}
+
+</div>
+
+</td>
+
+<td>{{ unit }}</td>
+<td>{{ label }}</td>
+<td class="rate-buy">{{ buy }}</td>
+<td class="rate-sell">{{ sell }}</td>
+
+</tr>
+
+{% endif %}
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="text-muted small mt-3">
+    💡<span class="badge badge-live">Dernière mise à jour : {{ now if now is defined else "chargement..." }}</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="footer text-center">
+
+🏨 HOTEL THE VIEW RABAT | Taux de Change Attijariwafa Bank
+
+</footer>
+
+<script>
+
+function filterTable(){
+
+let input=document.getElementById("search").value.toUpperCase();
+
+let table=document.getElementById("currencyTable");
+
+let tr=table.getElementsByTagName("tr");
+
+for(let i=1;i<tr.length;i++){
+
+let td=tr[i].getElementsByTagName("td")[0];
+
+if(td){
+
+let txt=td.textContent||td.innerText;
+
+tr[i].style.display=txt.toUpperCase().indexOf(input)>-1?"":"none";
+
+}
+
+}
+
+}
+
+// Actualisation automatique toutes les 5 minutes
+setTimeout(function(){
+location.reload();
+},300000);
+
+// Fonction pour activer/désactiver le plein écran
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(function(err) {
+            console.log('Erreur plein écran:', err);
+        });
+        document.querySelector('.btn-fullscreen').textContent = 'Quitter plein écran';
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+            document.querySelector('.btn-fullscreen').textContent = 'Plein écran';
+        }
+    }
+}
+
+// Détecter la touche F11
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F11') {
+        e.preventDefault();
+        toggleFullscreen();
+    }
+});
+
+// Changer le texte du bouton quand le plein écran change
+document.addEventListener('fullscreenchange', function() {
+    if (document.fullscreenElement) {
+        document.querySelector('.btn-fullscreen').textContent = 'Quitter plein écran';
+    } else {
+        document.querySelector('.btn-fullscreen').textContent = 'Plein écran';
+    }
+});
+
+</script>
+
+</body>
+
+</html>
